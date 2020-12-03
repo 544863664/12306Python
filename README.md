@@ -22,7 +22,7 @@ hack12306.py 是一个 Python 3.x 版的[12306.cn](http://www.12306.cn/mormhweb/)自动
 ```
 
 ## 设计
-![image](https://github.com/xiaoshun007/12306Python/blob/master/resources/images/流程图.jpg)
+![image](./resources/images/流程图.jpg)
 
 ## 功能介绍
 ```
