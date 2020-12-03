@@ -33,13 +33,14 @@ class hackTickets(object):
     def readConfig(self, config_file='config.ini'):
         print("加载配置文件...")
         # 补充文件路径，获得config.ini的绝对路径，默认为主程序当前目录
-        path = os.path.join(os.getcwd(), config_file)
+        # path = os.path.join(os.getcwd(), config_file)
 
         cp = ConfigParser()
         try:
             # 指定读取config.ini编码格式，防止中文乱码（兼容windows）
             cp.readfp(codecs.open(config_file, "r", "utf-8-sig"))
         except IOError as e:
+            e = e
             print(u'打开配置文件"%s"失败, 请先创建或者拷贝一份配置文件config.ini' % (config_file))
             input('Press any key to continue')
             sys.exit()
@@ -52,7 +53,7 @@ class hackTickets(object):
         # config.ini配置的是中文，转换成"武汉,WHN"，再进行编码
         self.starts = self.convertCityToCode(starts_city).encode('unicode_escape').decode("utf-8").replace("\\u", "%u").replace(",", "%2c")
         # 终点站
-        ends_city = cp.get("cookieInfo", "ends");
+        ends_city = cp.get("cookieInfo", "ends")
         self.ends = self.convertCityToCode(ends_city).encode('unicode_escape').decode("utf-8").replace("\\u", "%u").replace(",", "%2c")
         # 乘车时间
         self.dtime = cp.get("cookieInfo", "dtime")
@@ -134,13 +135,13 @@ class hackTickets(object):
 
     def __init__(self):
         # 读取城市中文与三字码映射文件，获得转换后到城市信息-- “武汉”: "武汉,WHN"
-        self.city_codes = self.loadCityCode();
+        self.city_codes = self.loadCityCode()
 
         # 加载席别
         self.loadSeatType()
 
         # 读取配置文件，获得初始化参数
-        self.loadConfig();
+        self.loadConfig()
 
     def login(self):
         print("开始登录...")
@@ -198,7 +199,7 @@ class hackTickets(object):
         count=0
         while self.driver.url == self.ticket_url:
             # 勾选车次类型，发车时间
-            self.searchMore();
+            self.searchMore()
             sleep(0.05)
             self.driver.find_by_text(u"查询").click()
             count += 1
@@ -216,7 +217,7 @@ class hackTickets(object):
         count=0
         while self.driver.url == self.ticket_url:
             # 勾选车次类型，发车时间
-            self.searchMore();
+            self.searchMore()
             sleep(0.05)
             self.driver.find_by_text(u"查询").click()
             count += 1
@@ -263,7 +264,7 @@ class hackTickets(object):
                 self.driver.find_by_id('qr_submit_id').click()
 
     def buyTickets(self):
-        t = time.clock()
+        t = time.perf_counter()
         try:
             print(u"购票页面开始...")
 
@@ -292,7 +293,7 @@ class hackTickets(object):
             # 确认选座
             self.confirmSeat()
 
-            print(time.clock() - t)
+            print(time.perf_counter() - t)
 
         except Exception as e:
             print(e)
@@ -311,7 +312,7 @@ class hackTickets(object):
         self.driver.visit(self.ticket_url)
 
         # 自动购买车票
-        self.buyTickets();
+        self.buyTickets()
 
 if __name__ == '__main__':
     print("===========hack12306 begin===========")
